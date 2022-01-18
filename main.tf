@@ -20,7 +20,7 @@ resource "local_file" "ssh-private-key" {
   sensitive_content = var.ssh_privatekey
 }
 
-resource "null_resource" "run-cognos-playbooks" {
+resource "null_resource" "run-playbooks" {
   triggers = {
     uuid = uuid()
   }
@@ -29,8 +29,5 @@ resource "null_resource" "run-cognos-playbooks" {
   provisioner "local-exec" {
     command     = data.template_file.ansible_run_script.rendered
     working_dir = "${path.module}/playbooks"
-    environment = {
-      ANSIBLE_SSH_RETRIES = 5
-    }
   }
 }
